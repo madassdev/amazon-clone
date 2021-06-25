@@ -2,10 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import { Link } from "react-router-dom";
+import { useStateValue } from "./StateProvider";
+
 function Header() {
+    const [{basket}, dispatch] = useStateValue()
   return (
+
     <Container>
-      <Logo src="/amazon_PNG11.png" />
+      <Link to="/">
+        <Logo src="/amazon_PNG11.png" />
+      </Link>
 
       <Search>
         <input type="text" />
@@ -25,10 +32,12 @@ function Header() {
           <p>Your</p>
           <span>Prime</span>
         </NavOption>
-        <BasketOption>
-          <ShoppingBasketIcon />
-          <span className="basket_count">0</span>
-        </BasketOption>
+        <Link to="/checkout">
+          <BasketOption>
+            <ShoppingBasketIcon />
+            <span className="basket_count">{basket?.length}</span>
+          </BasketOption>
+        </Link>
       </Nav>
     </Container>
   );

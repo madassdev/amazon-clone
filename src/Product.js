@@ -1,23 +1,41 @@
 import React from "react";
 import styled from "styled-components";
+import { useStateValue } from "./StateProvider";
 
-function Product() {
+function Product({ id, title, image, price, rating }) {
+
+    const [{basket}, dispatch] = useStateValue()
+    console.log("basket", basket)
+    const addToBasket = () => {
+        dispatch({
+            type: 'ADD_TO_BASKET',
+            item:{
+                id: id,
+                title: title,
+                image: image,
+                price: price,
+                rating: rating
+            }
+        })
+    }
   return (
     <Container>
       <ProductInfo>
-        <p className="product__title">The Lean Startup</p>
+        <p className="product__title">{title}</p>
         <p className="product__price">
           <small>$</small>
-          <strong>11.96</strong>
+          <strong>{price}</strong>
         </p>
         <ProductRating>
-          <p>🌟</p>
-          <p>🌟</p>
-          <p>🌟</p>
+          {Array(rating)
+            .fill()
+            .map((_, i) => (
+              <p>🌟</p>
+            ))}
         </ProductRating>
       </ProductInfo>
-      <img src="lean_startup.jpg" alt="" />
-      <button>Add to Basket</button>
+      <img src={image} alt="" />
+      <button onClick={addToBasket}>Add to Basket</button>
     </Container>
   );
 }
@@ -70,18 +88,18 @@ export default Product;
 //     background-color: white;
 //     z-index: 1;
 //   }
-  
+
 //   .product__rating {
 //     display: flex;
 //   }
-  
+
 //   .product > img {
 //     max-height: 200px;
 //     width: 100%;
 //     object-fit: contain;
 //     margin-bottom: 15px;
 //   }
-  
+
 //   .product > button {
 //     background: #f0c14b;
 //     border: 1px solid;
@@ -89,11 +107,11 @@ export default Product;
 //     border-color: #a88734 #9c7e31 #846a29;
 //     color: #111;
 //   }
-  
+
 //   .product__price {
 //     margin-top: 5px;
 //   }
-  
+
 //   .product__info {
 //     height: 100px;
 //     margin-bottom: 15px;
